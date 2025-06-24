@@ -6,8 +6,9 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# # Production stage
-# FROM nginx:alpine AS production
-# COPY --from=builder /app/docs /usr/share/nginx/html
-# EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
+# Production stage
+FROM nginx:alpine AS production
+COPY ./static /usr/share/nginx/html
+COPY --from=builder /app/docs /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
